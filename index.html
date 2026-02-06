@@ -18,6 +18,11 @@
 
                     <!-- Input + poga -->
                     <div class="input-group mb-3">
+                        <select name="prio" id="prio" class="form-select" style="max-width:100px">
+                          <option value="zema">Zema</option>
+                          <option value="videja">Videja</option>
+                          <option value="augsta">Augsta</option>
+                        </select>
                         <input type="text" id="task-input" class="form-control" placeholder="Ieraksti darbu...">
                         <button class="btn btn-primary" onclick="addTask()">Pievienot</button>
                     </div>
@@ -42,16 +47,39 @@
                 const li = document.createElement("li");
                 li.className = "list-group-item d-flex justify-content-between align-items-center";
 
-                li.innerHTML = `
-                    <button class="btn" id="cross">${text}</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteTask(this)">Dzēst</button>
-                `;
+                var select = document.getElementById("prio");
+                var letsSelect = select.options[select.selectedIndex].text;
+                const priority = document.createElement("span");
+                priority.textContent = letsSelect;
+                
 
-                const changeit = document.getElementById(cross);
-
-                changeit.onclick = function() {
-                    changeit.classList.toggle("text-decoration-line-through");
+                
+                if (letsSelect === "Zema") {
+                    priority.className = "btn btn-secondary";
+                } else if (letsSelect === "Videja") {
+                    priority.className = "btn btn-warning";
+                } else if (letsSelect === "Augsta") {
+                    priority.className = "btn btn-danger";
                 }
+                
+                const span = document.createElement("span");
+                span.textContent = text;
+
+
+                span.onclick = function() {
+                    span.classList.toggle("text-decoration-line-through");
+                };
+
+                const button = document.createElement("button");
+                button.textContent = "Dzēst";
+                button.className = "btn btn-danger btn-sm";
+                button.onclick = function () {
+                    deleteTask(this);
+                };
+                
+                li.appendChild(priority);
+                li.appendChild(span);
+                li.appendChild(button);
 
                 taskList.appendChild(li);
                 saveTasks();
