@@ -39,6 +39,19 @@
             const taskInput = document.getElementById("task-input");
             const taskList = document.getElementById("task-list");
 
+            taskList.addEventListener("click", function (e) {
+    
+                if (e.target.tagName === "SPAN" && !e.target.classList.contains("btn")) {
+                    e.target.classList.toggle("text-decoration-line-through");
+                    saveTasks();
+                }
+            
+                if (e.target.tagName === "BUTTON") {
+                    e.target.parentElement.remove();
+                    saveTasks();
+                }
+            });
+
 
             function addTask() {
                 const text = taskInput.value.trim();
@@ -66,16 +79,12 @@
                 span.textContent = text;
 
 
-                span.onclick = function() {
-                    span.classList.toggle("text-decoration-line-through");
-                };
+                
 
                 const button = document.createElement("button");
                 button.textContent = "Dzēst";
                 button.className = "btn btn-danger btn-sm";
-                button.onclick = function () {
-                    deleteTask(this);
-                };
+                
                 
                 li.appendChild(priority);
                 li.appendChild(span);
